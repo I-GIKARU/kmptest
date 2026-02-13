@@ -1,0 +1,33 @@
+workflows:
+  windows-desktop-release:
+    name: Windows Desktop Release
+    max_build_duration: 60
+    instance_type: windows_x2
+    environment:
+      java: 17
+      groups:
+        - keystore_credentials
+    scripts:
+      - name: Set up JDK
+        script: |
+          echo "Using JDK 17"
+          
+      - name: Build Windows executable
+        script: |
+          ./gradlew :composeApp:packageMsi
+          
+      - name: Find artifacts
+        script: |
+          find composeApp/build/compose/binaries/main -name "*.msi" -o -name "*.exe"
+          
+    artifacts:
+      - composeApp/build/compose/binaries/main/msi/*.msi
+      - composeApp/build/compose/binaries/main/exe/*.exe
+      
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
+        notify:
+          success: true
+          failure: true
