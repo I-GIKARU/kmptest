@@ -94,7 +94,6 @@ compose.desktop {
             packageVersion = "1.0.0"
             
             windows {
-                iconFile.set(project.file("src/commonMain/composeResources/drawable/icon.ico"))
                 menuGroup = "Inventory Manager"
                 upgradeUuid = "A1B2C3D4-E5F6-7890-ABCD-EF1234567890"
             }
