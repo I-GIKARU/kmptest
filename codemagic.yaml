@@ -2,7 +2,7 @@ workflows:
   windows-desktop-release:
     name: Windows Desktop Release
     max_build_duration: 60
-    instance_type: windows_x2
+    instance_type: linux_x2
     environment:
       java: 17
       groups:
@@ -14,15 +14,15 @@ workflows:
           
       - name: Build Windows executable
         script: |
-          ./gradlew :composeApp:packageMsi
+          ./gradlew :composeApp:packageDistributionForCurrentOS
+          ./gradlew :composeApp:createDistributable
           
       - name: Find artifacts
         script: |
-          find composeApp/build/compose/binaries/main -name "*.msi" -o -name "*.exe"
+          find composeApp/build/compose/binaries -type f
           
     artifacts:
-      - composeApp/build/compose/binaries/main/msi/*.msi
-      - composeApp/build/compose/binaries/main/exe/*.exe
+      - composeApp/build/compose/binaries/**/*
       
     publishing:
       email:
